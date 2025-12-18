@@ -43,7 +43,6 @@ function windowResized() {
 }
 
 function updateRects() {
-  // FONDO (cover)
   const vr = video.width / video.height;
   const cr = width / height;
 
@@ -59,7 +58,6 @@ function updateRects() {
     bgRect.x = (width - bgRect.w) / 2;
   }
 
-  // VIDEO PRINCIPAL (más grande, sin marco)
   const frameW = min(width * 0.85, 1100);
   const frameH = min(height * 0.85, 760);
 
@@ -137,7 +135,6 @@ class ElectricParticle {
 function draw() {
   background(0);
 
-  // FONDO BLUR (SIN MARCOS)
   push();
   drawingContext.filter = "blur(18px)";
   tint(255, 160);
@@ -146,12 +143,10 @@ function draw() {
   image(video, bgRect.x, bgRect.y, bgRect.w, bgRect.h);
   pop();
 
-  // oscurecer un poco para contraste
   fill(0, 120);
   noStroke();
   rect(0, 0, width, height);
 
-  // VIDEO PRINCIPAL LIMPIO (SIN CUADRO)
   push();
   drawingContext.filter = "none";
   tint(255);
@@ -160,7 +155,6 @@ function draw() {
   image(video, fgRect.x, fgRect.y, fgRect.w, fgRect.h);
   pop();
 
-  // DETECCIÓN MANOS
   let leftTipV = null;
   let rightTipV = null;
 
@@ -198,7 +192,6 @@ function draw() {
   let useRight =
     rightTipV || (lastRightTip && frameCount - lastRightSeen <= HOLD_FRAMES);
 
-  // ELÉCTRICO (izq)
   if (useLeft) {
     let src = leftTipV ? leftTipV : lastLeftTip;
     let fx = videoToFrameX(src.x);
@@ -253,7 +246,6 @@ function draw() {
     if (fireParticles[i].finished()) fireParticles.splice(i, 1);
   }
 
-  // SONIDO
   if (hands.length > 0 && hands[0].index_finger_tip && hands[0].thumb_tip) {
     if (!isOn) {
       osc.start();
